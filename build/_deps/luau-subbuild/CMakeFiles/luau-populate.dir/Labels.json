@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/CMakeFiles/luau-populate"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/CMakeFiles/luau-populate.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/CMakeFiles/luau-populate-complete.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-build.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-configure.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-download.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-install.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-patch.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-test.rule"
+		},
+		{
+			"file" : "/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"luau-populate"
+		],
+		"name" : "luau-populate"
+	}
+}

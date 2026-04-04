@@ -1,0 +1,21 @@
+# ninja log v7
+0	4	1775307328463443724	luau-populate-prefix/src/luau-populate-stamp/luau-populate-mkdir	649090ee676ef18c
+0	4	1775307328463443724	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-mkdir	649090ee676ef18c
+4	3622	1775307332080461663	luau-populate-prefix/src/luau-populate-stamp/luau-populate-download	286a7b86e4c23f3c
+4	3622	1775307332080461663	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-download	286a7b86e4c23f3c
+3622	3632	1775307332081461669	luau-populate-prefix/src/luau-populate-stamp/luau-populate-update	c584ba5a69aaac94
+3622	3632	1775307332081461669	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-update	c584ba5a69aaac94
+3632	3636	1775307332094461738	luau-populate-prefix/src/luau-populate-stamp/luau-populate-patch	42a0e7d70157f24a
+3632	3636	1775307332094461738	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-patch	42a0e7d70157f24a
+3636	3639	1775307332098461759	luau-populate-prefix/src/luau-populate-stamp/luau-populate-configure	b15a71cae1e60902
+3636	3639	1775307332098461759	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-configure	b15a71cae1e60902
+3639	3643	1775307332102461780	luau-populate-prefix/src/luau-populate-stamp/luau-populate-build	4e901553e6b58e9c
+3639	3643	1775307332102461780	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-build	4e901553e6b58e9c
+3643	3647	1775307332106461801	luau-populate-prefix/src/luau-populate-stamp/luau-populate-install	f42f8b591dda7d2
+3643	3647	1775307332106461801	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-install	f42f8b591dda7d2
+3647	3651	1775307332110461823	luau-populate-prefix/src/luau-populate-stamp/luau-populate-test	aaed40c498759d54
+3647	3651	1775307332110461823	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-test	aaed40c498759d54
+3651	3657	1775307332115461849	CMakeFiles/luau-populate-complete	469144b2b429cfd3
+3651	3657	1775307332115461849	luau-populate-prefix/src/luau-populate-stamp/luau-populate-done	469144b2b429cfd3
+3651	3657	1775307332115461849	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/CMakeFiles/luau-populate-complete	469144b2b429cfd3
+3651	3657	1775307332115461849	/home/runner/work/openrcc/openrcc/build/_deps/luau-subbuild/luau-populate-prefix/src/luau-populate-stamp/luau-populate-done	469144b2b429cfd3
