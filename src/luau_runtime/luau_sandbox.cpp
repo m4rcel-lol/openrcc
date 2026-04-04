@@ -63,11 +63,11 @@ void LuauSandbox::InstallRccApi() {
     });
     lua_setfield(state_, -2, "yield");
 
-    const std::string copied_job_id = job_id_;
-    lua_pushlightuserdata(state_, static_cast<void*>(const_cast<char*>(copied_job_id.c_str())));
+    // ARCH: Store job_id as an immutable upvalue string owned by Lua to avoid dangling host pointers.
+    lua_pushlstring(state_, job_id_.c_str(), job_id_.size());
     lua_pushcclosure(state_, [](lua_State* lua_state) -> int {
-        const void* ptr = lua_touserdata(lua_state, lua_upvalueindex(1));
-        lua_pushstring(lua_state, static_cast<const char*>(ptr));
+        const char* job_id = lua_tostring(lua_state, lua_upvalueindex(1));
+        lua_pushstring(lua_state, job_id != nullptr ? job_id : "");
         return 1;
     }, 1);
     lua_setfield(state_, -2, "getJobId");
