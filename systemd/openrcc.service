@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenRCC Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/openrcc
+Restart=on-failure
+User=openrcc
+Group=openrcc
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package openrcc.v1;
+
+option cc_enable_arenas = true;
+
+/**
+ * Empty message placeholder.
+ */
+message Empty {}
+
+/**
+ * Request to create a new job and Luau VM.
+ */
+message OpenJobRequest {
+  string request_id = 1; // UUID for end-to-end trace correlation.
+  string job_name = 2; // Human-readable logical name for the job.
+  uint32 tick_rate_hz = 3; // Desired server tick frequency for this job.
+}
+
+/**
+ * Response to OpenJob.
+ */
+message OpenJobResponse {
+  string request_id = 1; // Echoed UUID for trace correlation.
+  string job_id = 2; // Assigned stable job identifier.
+  string state = 3; // Initial FSM state after job allocation.
+  string message = 4; // Optional status message for clients.
+}
+
+/**
+ * Request to execute Luau source code in a running job.
+ */
+message ExecuteScriptRequest {
+  string request_id = 1; // UUID for end-to-end trace correlation.
+  string job_id = 2; // Target job identifier that owns the VM.
+  string source = 3; // Raw Luau script text to execute.
+}
+
+/**
+ * Response to script execution submission.
+ */
+message ExecuteScriptResponse {
+  string request_id = 1; // Echoed UUID for trace correlation.
+  bool accepted = 2; // True if script was accepted by runtime queue.
+  string message = 3; // Execution enqueue result detail.
+}
+
+/**
+ * Request to close a running or pending job.
+ */
+message CloseJobRequest {
+  string request_id = 1; // UUID for end-to-end trace correlation.
+  string job_id = 2; // Job identifier to tear down.
+  bool force = 3; // True for immediate forced teardown.
+}
+
+/**
+ * Response to CloseJob request.
+ */
+message CloseJobResponse {
+  string request_id = 1; // Echoed UUID for trace correlation.
+  bool closed = 2; // True if teardown completed or was scheduled.
+  string final_state = 3; // Final or target FSM state after close.
+}
+
+/**
+ * Request to query state for a specific job.
+ */
+message JobStatusRequest {
+  string request_id = 1; // UUID for end-to-end trace correlation.
+  string job_id = 2; // Job identifier to inspect.
+}
+
+/**
+ * Response containing single-job runtime status.
+ */
+message JobStatusResponse {
+  string request_id = 1; // Echoed UUID for trace correlation.
+  string job_id = 2; // Job identifier that was queried.
+  string state = 3; // Current FSM state value.
+  uint64 uptime_ms = 4; // Milliseconds since job started.
+  uint64 memory_bytes = 5; // Current memory footprint estimate.
+}
+
+/**
+ * Response containing aggregate server state.
+ */
+message ServerStatusResponse {
+  string request_id = 1; // UUID for end-to-end trace correlation.
+  uint64 total_jobs = 2; // Count of currently tracked jobs.
+  uint64 running_jobs = 3; // Count of jobs currently in RUNNING state.
+  uint64 faulted_jobs = 4; // Count of jobs currently in FAULTED state.
+  uint64 uptime_ms = 5; // Server process uptime in milliseconds.
+}
+
+/**
+ * Canonical OpenRCC control-plane service.
+ */
+service OpenRccControl {
+  rpc OpenJob(OpenJobRequest) returns (OpenJobResponse);
+  rpc ExecuteScript(ExecuteScriptRequest) returns (ExecuteScriptResponse);
+  rpc CloseJob(CloseJobRequest) returns (CloseJobResponse);
+  rpc GetJobStatus(JobStatusRequest) returns (JobStatusResponse);
+  rpc ServerStatus(Empty) returns (ServerStatusResponse);
+}

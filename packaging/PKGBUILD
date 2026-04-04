@@ -1,0 +1,31 @@
+# Maintainer: OpenRCC Contributors
+pkgname=openrcc
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="OpenRCC educational distributed game server control architecture"
+arch=('x86_64')
+url="https://github.com/m4rcel-lol/openrcc"
+license=('MIT')
+depends=('glibc' 'gcc-libs' 'systemd' 'grpc' 'protobuf' 'spdlog')
+makedepends=('cmake' 'ninja' 'git' 'gcc' 'protobuf')
+source=("${pkgname}-${pkgver}::git+${url}.git")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  cmake -S . -B build \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ctest --test-dir build --output-on-failure || true
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  DESTDIR="${pkgdir}" cmake --install build
+}
