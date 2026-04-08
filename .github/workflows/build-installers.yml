@@ -77,7 +77,7 @@ jobs:
       - name: Install WiX Toolset
         shell: pwsh
         run: |
-          choco install wixtoolset --yes --no-progress
+          choco install wixtoolset --version=3.11.2 --yes --no-progress
           $wixDir = Get-ChildItem "$env:ProgramFiles(x86)" -Directory | Where-Object { $_.Name -like "WiX Toolset v3*" } | Sort-Object Name -Descending | Select-Object -First 1
           if (-not $wixDir) { throw "WiX Toolset installation directory not found" }
           $wixBin = Join-Path $wixDir.FullName "bin"
