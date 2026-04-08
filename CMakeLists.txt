@@ -46,18 +46,23 @@ target_include_directories(openrcc_proto PUBLIC "${GENERATED_DIR}")
 target_link_libraries(openrcc_proto PUBLIC protobuf::libprotobuf gRPC::grpc++)
 
 add_library(openrcc_warnings INTERFACE)
+option(OPENRCC_ENABLE_WERROR "Treat warnings as errors for OpenRCC targets" ON)
 if(MSVC)
     target_compile_options(openrcc_warnings INTERFACE
         /W4
-        /WX
     )
+    if(OPENRCC_ENABLE_WERROR)
+        target_compile_options(openrcc_warnings INTERFACE /WX)
+    endif()
 else()
     target_compile_options(openrcc_warnings INTERFACE
         -Wall
         -Wextra
         -Wpedantic
-        -Werror
     )
+    if(OPENRCC_ENABLE_WERROR)
+        target_compile_options(openrcc_warnings INTERFACE -Werror)
+    endif()
 endif()
 
 add_library(openrcc_common STATIC
