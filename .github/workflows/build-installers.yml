@@ -77,12 +77,18 @@ jobs:
       - name: Install WiX Toolset
         shell: pwsh
         run: |
-          choco install ninja --yes --no-progress
-          choco install wixtoolset --version=3.11.2 --yes --no-progress
-          $wixDir = Get-ChildItem "$env:ProgramFiles(x86)" -Directory | Where-Object { $_.Name -like "WiX Toolset v3*" } | Sort-Object Name -Descending | Select-Object -First 1
-          if (-not $wixDir) { throw "WiX Toolset installation directory not found" }
-          $wixBin = Join-Path $wixDir.FullName "bin"
-          $wixBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          choco upgrade ninja --yes --no-progress
+          choco install wixtoolset --version=3.11.2 --allow-downgrade --yes --no-progress
+          $programFilesRoots = @($env:ProgramFiles, ${env:ProgramFiles(x86)}) | Where-Object { $_ -and (Test-Path $_) }
+          $wixDir = foreach ($root in $programFilesRoots) {
+            Get-ChildItem $root -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "WiX Toolset v3*" }
+          } | Sort-Object FullName -Descending | Select-Object -First 1
+          if ($wixDir) {
+            $wixBin = Join-Path $wixDir.FullName "bin"
+            $wixBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          } elseif (-not (Get-Command candle.exe -ErrorAction SilentlyContinue)) {
+            throw "WiX Toolset installation directory not found and candle.exe is not on PATH"
+          }
 
       - name: Configure
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
