@@ -22,7 +22,7 @@
           </Component>
           <Component Id="PathComponent" Guid="*">
             <RegistryValue Root="HKLM" Key="Software\OpenRCC" Name="InstallPath" Type="string" Value="[INSTALLFOLDER]" KeyPath="yes" />
-            <Environment Id="OpenRCCInstallDirOnPath" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" />
+            <Environment Id="OpenRCCInstallDirOnPath" Name="PATH" Value="[~];[INSTALLFOLDER]" Action="set" System="yes" />
           </Component>
         </Directory>
       </Directory>
