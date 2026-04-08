@@ -35,3 +35,11 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(grpc spdlog luau googletest)
+
+if(TARGET grpc++ AND NOT TARGET gRPC::grpc++)
+    add_library(gRPC::grpc++ ALIAS grpc++)
+endif()
+
+if(TARGET grpc_cpp_plugin AND NOT TARGET gRPC::grpc_cpp_plugin)
+    add_executable(gRPC::grpc_cpp_plugin ALIAS grpc_cpp_plugin)
+endif()
