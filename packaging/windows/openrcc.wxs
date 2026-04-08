@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product
+    Id="*"
+    Name="OpenRCC"
+    Language="1033"
+    Version="$(var.OpenRCCVersion)"
+    Manufacturer="OpenRCC Maintainers"
+    UpgradeCode="A9824D05-31A5-4068-9DE5-8E726FEA3CC2">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of OpenRCC is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="OpenRCC">
+          <Component Id="RCCServiceComponent" Guid="*">
+            <File Id="RCCServiceExe" Source="$(var.BuildOutputDir)\RCCService.exe" KeyPath="yes" />
+          </Component>
+          <Component Id="RCCSoapComponent" Guid="*">
+            <File Id="RCCSoapExe" Source="$(var.BuildOutputDir)\RCCSoap.exe" KeyPath="yes" />
+          </Component>
+          <Component Id="PathComponent" Guid="*">
+            <RegistryValue Root="HKLM" Key="Software\OpenRCC" Name="InstallPath" Type="string" Value="[INSTALLFOLDER]" KeyPath="yes" />
+            <Environment Id="OpenRCCInstallDirOnPath" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="MainFeature" Title="OpenRCC" Level="1">
+      <ComponentRef Id="RCCServiceComponent" />
+      <ComponentRef Id="RCCSoapComponent" />
+      <ComponentRef Id="PathComponent" />
+    </Feature>
+  </Product>
+</Wix>
