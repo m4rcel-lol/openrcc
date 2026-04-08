@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+include(GNUInstallDirs)
 
 include(cmake/deps.cmake)
 include(cmake/distro.cmake)
@@ -45,12 +46,19 @@ target_include_directories(openrcc_proto PUBLIC "${GENERATED_DIR}")
 target_link_libraries(openrcc_proto PUBLIC protobuf::libprotobuf gRPC::grpc++)
 
 add_library(openrcc_warnings INTERFACE)
-target_compile_options(openrcc_warnings INTERFACE
-    -Wall
-    -Wextra
-    -Wpedantic
-    -Werror
-)
+if(MSVC)
+    target_compile_options(openrcc_warnings INTERFACE
+        /W4
+        /WX
+    )
+else()
+    target_compile_options(openrcc_warnings INTERFACE
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Werror
+    )
+endif()
 
 add_library(openrcc_common STATIC
     src/common/config.cpp
@@ -119,6 +127,21 @@ target_link_libraries(openrcc-soap PRIVATE
     gRPC::grpc++
     openrcc_warnings
 )
+
+if(WIN32)
+    set_target_properties(openrcc PROPERTIES OUTPUT_NAME "RCCService")
+    set_target_properties(openrcc-soap PROPERTIES OUTPUT_NAME "RCCSoap")
+endif()
+
+install(TARGETS openrcc openrcc-soap
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(UNIX AND NOT APPLE)
+    install(FILES systemd/openrcc.service
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/system
+    )
+endif()
 
 add_executable(openrcc-tests
     test/job_fsm_test.cpp

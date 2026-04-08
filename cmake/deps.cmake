@@ -4,8 +4,11 @@ set(FETCHCONTENT_QUIET OFF)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 
 set(gRPC_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(gRPC_INSTALL OFF CACHE BOOL "" FORCE)
 set(ABSL_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
 set(protobuf_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(protobuf_INSTALL OFF CACHE BOOL "" FORCE)
+set(utf8_range_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
     grpc
@@ -32,3 +35,11 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(grpc spdlog luau googletest)
+
+if(TARGET grpc++ AND NOT TARGET gRPC::grpc++)
+    add_library(gRPC::grpc++ ALIAS grpc++)
+endif()
+
+if(TARGET grpc_cpp_plugin AND NOT TARGET gRPC::grpc_cpp_plugin)
+    add_executable(gRPC::grpc_cpp_plugin ALIAS grpc_cpp_plugin)
+endif()
