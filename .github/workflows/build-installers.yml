@@ -83,9 +83,8 @@ jobs:
             $env:ProgramFiles
             [System.Environment]::GetEnvironmentVariable("ProgramFiles(x86)")
           ) | Where-Object { $_ -and (Test-Path $_) }
-          $candidates = @()
-          foreach ($root in $programFilesRoots) {
-            $candidates += Get-ChildItem -Path $root -Directory -ErrorAction SilentlyContinue |
+          $candidates = foreach ($root in $programFilesRoots) {
+            Get-ChildItem -Path $root -Directory -ErrorAction SilentlyContinue |
               Where-Object { $_.Name -like "WiX Toolset v3*" }
           }
           $wixDir = $candidates | Sort-Object FullName -Descending | Select-Object -First 1
