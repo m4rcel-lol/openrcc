@@ -65,7 +65,7 @@ std::string JobManager::OpenJob(std::uint32_t tick_rate_hz) {
 
     auto [it, inserted] = jobs_.try_emplace(job_id, job_id, tick_rate_hz);
     if (!inserted) {
-        throw std::logic_error("Duplicate job ID generated: " + job_id);
+        throw std::logic_error("Internal error: duplicate job ID detected despite monotonic counter increment: " + job_id);
     }
     ManagedJob& job = it->second;
     job.fsm.TransitionTo(JobState::RUNNING);
