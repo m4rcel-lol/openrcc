@@ -2,9 +2,9 @@
 
 #include <spdlog/spdlog.h>
 
-#if __has_include(<lua.h>)
-#include <lauxlib.h>
+#if __has_include(<lua.h>) && __has_include(<lauxlib.h>) && __has_include(<lualib.h>)
 #include <lua.h>
+#include <lauxlib.h>
 #include <lualib.h>
 #define OPENRCC_HAS_LUAU 1
 #else
