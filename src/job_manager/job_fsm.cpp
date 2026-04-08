@@ -63,7 +63,11 @@ std::string JobManager::OpenJob(std::uint32_t tick_rate_hz) {
     id_builder << "job-" << std::setw(6) << std::setfill('0') << ++counter_;
     const std::string job_id = id_builder.str();
 
-    ManagedJob job(job_id, tick_rate_hz);
+    auto [it, inserted] = jobs_.try_emplace(job_id, job_id, tick_rate_hz);
+    if (!inserted) {
+        throw std::logic_error("Duplicate job ID generated: " + job_id);
+    }
+    ManagedJob& job = it->second;
     job.fsm.TransitionTo(JobState::RUNNING);
 
     // ARCH: One std::jthread per job isolates runaway jobs and allows cooperative cancellation via stop_token.
@@ -87,7 +91,6 @@ std::string JobManager::OpenJob(std::uint32_t tick_rate_hz) {
         }
     });
 
-    jobs_.emplace(job_id, std::move(job));
     spdlog::info("Opened job {}", job_id);
     return job_id;
 }
