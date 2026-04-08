@@ -1,0 +1,21 @@
+# ninja log v7
+0	3	1775630777122766400	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-mkdir	56acbcfbb67d81dc
+0	3	1775630777122766400	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-mkdir	56acbcfbb67d81dc
+3	235196	1775631012316036697	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-download	ee56861dd4db1077
+3	235196	1775631012316036697	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-download	ee56861dd4db1077
+235196	235203	1775631012316036697	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-update	809c348eb7f4aab1
+235196	235203	1775631012316036697	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-update	809c348eb7f4aab1
+235203	235206	1775631012325036744	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-patch	572883a298663d97
+235203	235206	1775631012325036744	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-patch	572883a298663d97
+235206	235208	1775631012328036760	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-configure	de1326e414bc4cbb
+235206	235208	1775631012328036760	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-configure	de1326e414bc4cbb
+235208	235211	1775631012331036775	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-build	bc8da17b3819fa92
+235208	235211	1775631012331036775	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-build	bc8da17b3819fa92
+235211	235214	1775631012334036791	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-install	b2a6d10274103896
+235211	235214	1775631012334036791	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-install	b2a6d10274103896
+235214	235217	1775631012337036807	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-test	2d2b08d05966707
+235214	235217	1775631012337036807	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-test	2d2b08d05966707
+235217	235221	1775631012341036828	CMakeFiles/grpc-populate-complete	f726d9fa8e2f2756
+235217	235221	1775631012341036828	grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-done	f726d9fa8e2f2756
+235217	235221	1775631012341036828	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/CMakeFiles/grpc-populate-complete	f726d9fa8e2f2756
+235217	235221	1775631012341036828	/home/runner/work/openrcc/openrcc/build/_deps/grpc-subbuild/grpc-populate-prefix/src/grpc-populate-stamp/grpc-populate-done	f726d9fa8e2f2756

@@ -1,0 +1,5 @@
+if(EXISTS "/home/runner/work/openrcc/openrcc/build/openrcc-tests[1]_tests.cmake")
+  include("/home/runner/work/openrcc/openrcc/build/openrcc-tests[1]_tests.cmake")
+else()
+  add_test(openrcc-tests_NOT_BUILT openrcc-tests_NOT_BUILT)
+endif()

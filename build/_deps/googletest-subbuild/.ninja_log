@@ -1,0 +1,21 @@
+# ninja log v7
+0	3	1775631024180097143	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	cb595b2e66213ec
+0	3	1775631024180097143	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	cb595b2e66213ec
+3	1748	1775631025925105621	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	188b4beab2876535
+3	1748	1775631025925105621	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	188b4beab2876535
+1748	1755	1775631025925105621	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	a618e633458db5b
+1748	1755	1775631025925105621	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	a618e633458db5b
+1755	1758	1775631025934105665	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	456381441d12bceb
+1755	1758	1775631025934105665	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	456381441d12bceb
+1758	1760	1775631025937105679	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	96316743aa0e7d85
+1758	1760	1775631025937105679	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	96316743aa0e7d85
+1760	1763	1775631025940105694	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	46fcd68974662f95
+1760	1763	1775631025940105694	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	46fcd68974662f95
+1763	1766	1775631025943105708	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	2e37d3bfb46688cb
+1763	1766	1775631025943105708	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	2e37d3bfb46688cb
+1766	1769	1775631025946105723	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	85efaa55ad26fcfa
+1766	1769	1775631025946105723	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	85efaa55ad26fcfa
+1769	1773	1775631025950105742	CMakeFiles/googletest-populate-complete	35c3fd73f7302db0
+1769	1773	1775631025950105742	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	35c3fd73f7302db0
+1769	1773	1775631025950105742	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	35c3fd73f7302db0
+1769	1773	1775631025950105742	/home/runner/work/openrcc/openrcc/build/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	35c3fd73f7302db0

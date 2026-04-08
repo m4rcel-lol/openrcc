@@ -1,0 +1,21 @@
+# ninja log v7
+0	3	1775631018843070927	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-mkdir	2e15609ddf668181
+0	3	1775631018843070927	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-mkdir	2e15609ddf668181
+3	1944	1775631020783080640	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-download	c072fc09ab8e0230
+3	1944	1775631020783080640	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-download	c072fc09ab8e0230
+1944	1950	1775631020784080645	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-update	638fd48ad478bc4a
+1944	1950	1775631020784080645	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-update	638fd48ad478bc4a
+1950	1953	1775631020793080689	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-patch	e3208ed67318c13
+1950	1953	1775631020793080689	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-patch	e3208ed67318c13
+1954	1956	1775631020796080703	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-configure	77ff3087d55b1497
+1954	1956	1775631020796080703	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-configure	77ff3087d55b1497
+1956	1959	1775631020799080718	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-build	638f4d1c8ebcb2f3
+1956	1959	1775631020799080718	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-build	638f4d1c8ebcb2f3
+1959	1962	1775631020802080732	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-install	4f6a8f278ae9698b
+1959	1962	1775631020802080732	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-install	4f6a8f278ae9698b
+1962	1965	1775631020805080747	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-test	588132b4d9cd9b0
+1962	1965	1775631020805080747	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-test	588132b4d9cd9b0
+1965	1969	1775631020809080766	CMakeFiles/spdlog-populate-complete	51f249d4313a6903
+1965	1969	1775631020809080766	spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-done	51f249d4313a6903
+1965	1969	1775631020809080766	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/CMakeFiles/spdlog-populate-complete	51f249d4313a6903
+1965	1969	1775631020809080766	/home/runner/work/openrcc/openrcc/build/_deps/spdlog-subbuild/spdlog-populate-prefix/src/spdlog-populate-stamp/spdlog-populate-done	51f249d4313a6903
