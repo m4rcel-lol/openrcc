@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstdint>
 
 #include <grpcpp/grpcpp.h>
 
@@ -17,7 +18,7 @@ public:
     /**
      * Construct service handler.
      */
-    RccControlServiceImpl();
+    explicit RccControlServiceImpl(std::uint32_t default_tick_rate_hz = 30);
 
     grpc::Status OpenJob(grpc::ServerContext* context,
                          const openrcc::v1::OpenJobRequest* request,
@@ -47,6 +48,7 @@ public:
 private:
     openrcc::job_manager::JobManager job_manager_;
     std::chrono::steady_clock::time_point started_at_;
+    std::uint32_t default_tick_rate_hz_;
 };
 
 }  // namespace openrcc::service

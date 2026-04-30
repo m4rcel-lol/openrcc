@@ -62,6 +62,12 @@ else()
     )
     if(OPENRCC_ENABLE_WERROR)
         target_compile_options(openrcc_warnings INTERFACE -Werror)
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+            target_compile_options(openrcc_warnings INTERFACE
+                -Wno-error=deprecated-builtins
+                -Wno-error=gcc-compat
+            )
+        endif()
     endif()
 endif()
 
@@ -92,6 +98,12 @@ add_library(openrcc_tutorial STATIC
 )
 target_include_directories(openrcc_tutorial PUBLIC src)
 target_link_libraries(openrcc_tutorial PUBLIC openrcc_proto spdlog::spdlog openrcc_warnings)
+
+add_library(openrcc_soap_bridge STATIC
+    src/soap/soap_bridge.cpp
+)
+target_include_directories(openrcc_soap_bridge PUBLIC src "${GENERATED_DIR}")
+target_link_libraries(openrcc_soap_bridge PUBLIC openrcc_proto openrcc_warnings)
 
 add_library(openrcc_service_impl STATIC
     src/service/rcc_service_impl.cpp
@@ -127,6 +139,7 @@ add_executable(openrcc-soap
 )
 target_include_directories(openrcc-soap PRIVATE src "${GENERATED_DIR}")
 target_link_libraries(openrcc-soap PRIVATE
+    openrcc_soap_bridge
     openrcc_proto
     spdlog::spdlog
     gRPC::grpc++
@@ -140,15 +153,18 @@ endif()
 
 install(TARGETS openrcc openrcc-soap
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT openrcc_runtime
 )
 
 if(UNIX AND NOT APPLE)
     install(FILES systemd/openrcc.service
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/system
+        COMPONENT openrcc_runtime
     )
 endif()
 
 add_executable(openrcc-tests
+    test/config_test.cpp
     test/job_fsm_test.cpp
     test/luau_sandbox_test.cpp
     test/soap_bridge_test.cpp
@@ -158,6 +174,7 @@ target_link_libraries(openrcc-tests PRIVATE
     openrcc_job_manager
     openrcc_luau_runtime
     openrcc_common
+    openrcc_soap_bridge
     openrcc_proto
     GTest::gtest_main
     spdlog::spdlog
@@ -170,8 +187,8 @@ gtest_discover_tests(openrcc-tests)
 option(OPENRCC_BUILD_FUZZERS "Build fuzzing targets" OFF)
 if(OPENRCC_BUILD_FUZZERS)
     add_executable(openrcc-soap-fuzz test/soap_parser_fuzz.cpp)
-    target_include_directories(openrcc-soap-fuzz PRIVATE src)
-    target_link_libraries(openrcc-soap-fuzz PRIVATE openrcc_warnings)
+    target_include_directories(openrcc-soap-fuzz PRIVATE src "${GENERATED_DIR}")
+    target_link_libraries(openrcc-soap-fuzz PRIVATE openrcc_soap_bridge openrcc_warnings)
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(openrcc-soap-fuzz PRIVATE -fsanitize=fuzzer,address)
         target_link_options(openrcc-soap-fuzz PRIVATE -fsanitize=fuzzer,address)

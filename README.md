@@ -16,18 +16,19 @@ It includes:
 - [Architecture overview](./docs/architecture.md)
 - [API overview](./docs/api.md)
 - [Configuration](./docs/configuration.md)
+- [Building on macOS Apple Silicon](./docs/macos-build.md)
 
 ## Quick start
 
 ### 1) Install dependencies
 
-Use the helper script for supported Linux families:
+Use the helper script for supported Linux families and macOS Apple Silicon:
 
 ```bash
 ./scripts/install-deps.sh
 ```
 
-The script currently supports Arch-family and Fedora-family distributions.
+The script currently supports Arch-family Linux, Fedora-family Linux, and macOS with Homebrew.
 
 ### 2) Configure and build
 

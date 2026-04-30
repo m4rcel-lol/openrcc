@@ -5,6 +5,45 @@ log() { printf '[INFO] %s\n' "$*"; }
 warn() { printf '[WARN] %s\n' "$*"; }
 err() { printf '[ERR ] %s\n' "$*"; }
 
+print_status_table() {
+  printf '\n%-20s | %-6s\n' 'Binary' 'Status'
+  printf '%s\n' '---------------------+--------'
+  for bin in "$@"; do
+    if command -v "${bin}" >/dev/null 2>&1; then
+      printf '%-20s | PASS\n' "${bin}"
+    else
+      printf '%-20s | FAIL\n' "${bin}"
+    fi
+  done
+}
+
+install_macos() {
+  log "Detected macOS ($(uname -m))"
+
+  if ! xcode-select -p >/dev/null 2>&1; then
+    err "Xcode Command Line Tools are required. Run: xcode-select --install"
+    exit 1
+  fi
+
+  if ! command -v brew >/dev/null 2>&1 && [[ -x /opt/homebrew/bin/brew ]]; then
+    # shellcheck disable=SC2046
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
+  if ! command -v brew >/dev/null 2>&1; then
+    err "Homebrew is required on macOS. Install it from https://brew.sh/ and rerun this script."
+    exit 1
+  fi
+
+  brew install cmake ninja git
+}
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  install_macos
+  print_status_table cmake ninja git clang++
+  exit 0
+fi
+
 if [[ ! -f /etc/os-release ]]; then
   err "/etc/os-release not found"
   exit 1
@@ -56,12 +95,4 @@ else
   exit 1
 fi
 
-printf '\n%-20s | %-6s\n' 'Binary' 'Status'
-printf '%s\n' '---------------------+--------'
-for bin in cmake grpc_cpp_plugin protoc; do
-  if command -v "${bin}" >/dev/null 2>&1; then
-    printf '%-20s | PASS\n' "${bin}"
-  else
-    printf '%-20s | FAIL\n' "${bin}"
-  fi
-done
+print_status_table cmake ninja grpc_cpp_plugin protoc

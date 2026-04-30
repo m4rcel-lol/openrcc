@@ -15,11 +15,16 @@ OpenRCC reads runtime configuration from:
 - Type: unsigned integer
 - Default: `30`
 - Purpose: default simulation/update tick target.
+- Must be greater than zero.
 
 ### `json_logs`
 - Type: boolean
 - Default: `true`
 - Purpose: toggles logging mode setup.
+- Accepted values: `true`, `false`, `1`, `0`.
+
+Invalid supported values fail startup with a configuration error instead of
+silently falling back to an unsafe or surprising value.
 
 ## Example
 

@@ -8,6 +8,7 @@ This directory contains practical documentation for working with OpenRCC.
 2. [Architecture overview](./architecture.md)
 3. [API overview](./api.md)
 4. [Configuration](./configuration.md)
+5. [Building on macOS Apple Silicon](./macos-build.md)
 
 ## Additional references in repo
 

@@ -1,5 +1,10 @@
 #include "luau_runtime/luau_sandbox.hpp"
 
+#include <array>
+#include <cctype>
+#include <optional>
+#include <utility>
+
 #include <spdlog/spdlog.h>
 
 #if __has_include(<lua.h>) && __has_include(<lauxlib.h>) && __has_include(<lualib.h>)
@@ -12,6 +17,53 @@
 #endif
 
 namespace openrcc::luau_runtime {
+namespace {
+
+bool IsIdentifierChar(char ch) {
+    const unsigned char value = static_cast<unsigned char>(ch);
+    return std::isalnum(value) != 0 || ch == '_';
+}
+
+bool ContainsDeniedToken(const std::string& source, const char* token) {
+    std::size_t cursor = 0;
+    while (cursor < source.size()) {
+        const std::size_t found = source.find(token, cursor);
+        if (found == std::string::npos) {
+            return false;
+        }
+        if (found == 0 || !IsIdentifierChar(source[found - 1])) {
+            return true;
+        }
+        cursor = found + 1;
+    }
+    return false;
+}
+
+std::optional<std::string> FindDeniedCapability(const std::string& source) {
+    constexpr std::array<const char*, 4> denied_patterns = {
+        "os.execute",
+        "os.",
+        "io.",
+        "require(",
+    };
+
+    for (const char* pattern : denied_patterns) {
+        if (ContainsDeniedToken(source, pattern)) {
+            return std::string(pattern);
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool RecordDeniedCapability(const std::string& capability, std::vector<std::string>& blocked_attempts) {
+    const std::string denied = "Denied capability: " + capability;
+    blocked_attempts.push_back(denied);
+    spdlog::warn("{}", denied);
+    return false;
+}
+
+}  // namespace
 
 LuauSandbox::LuauSandbox(std::string job_id)
     : job_id_(std::move(job_id)), state_(nullptr), instruction_budget_(10000), blocked_attempts_() {
@@ -77,11 +129,12 @@ void LuauSandbox::InstallRccApi() {
 }
 
 bool LuauSandbox::Execute(const std::string& source) {
+    if (const std::optional<std::string> denied = FindDeniedCapability(source); denied.has_value()) {
+        return RecordDeniedCapability(*denied, blocked_attempts_);
+    }
+
 #if OPENRCC_HAS_LUAU
-    if (source.find("os.execute") != std::string::npos) {
-        const std::string denied = "Denied capability: os.execute";
-        blocked_attempts_.push_back(denied);
-        spdlog::warn("{}", denied);
+    if (state_ == nullptr) {
         return false;
     }
 
@@ -93,11 +146,7 @@ bool LuauSandbox::Execute(const std::string& source) {
     }
     return true;
 #else
-    if (source.find("os.execute") != std::string::npos) {
-        const std::string denied = "Denied capability: os.execute";
-        blocked_attempts_.push_back(denied);
-    }
-    return source.find("os.execute") == std::string::npos;
+    return true;
 #endif
 }
 

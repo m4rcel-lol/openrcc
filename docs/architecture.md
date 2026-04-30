@@ -13,6 +13,7 @@
     - `RUNNING -> DRAINING`
     - `DRAINING -> CLOSED`
     - `RUNNING -> FAULTED`
+    - `DRAINING -> FAULTED`
     - `PENDING -> FAULTED`
 
 - **Luau sandbox**
@@ -34,7 +35,8 @@
 3. `OpenJob` allocates a job and transitions it to `RUNNING`.
 4. `ExecuteScript` queues script source if job is runnable.
 5. `CloseJob` drains or force-faults based on request.
-6. `ServerStatus` returns aggregate counters + uptime.
+6. `GetJobStatus` returns current state, uptime, and memory estimate.
+7. `ServerStatus` returns aggregate counters + uptime.
 
 ## Shutdown behavior
 

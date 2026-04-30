@@ -19,6 +19,7 @@ struct ServiceConfig {
  *
  * @param path Absolute path to configuration file.
  * @return Parsed service configuration with defaults on missing fields.
+ * @throws std::runtime_error when a supported field has an invalid value.
  */
 ServiceConfig ParseServiceConfig(const std::string& path);
 

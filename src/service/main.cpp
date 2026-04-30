@@ -1,6 +1,8 @@
-#include <atomic>
 #include <chrono>
 #include <csignal>
+#include <exception>
+#include <iostream>
+#include <memory>
 #include <string>
 #include <thread>
 
@@ -26,7 +28,7 @@ static int sd_notify(int unset_environment, const char* state) {
 
 namespace {
 
-std::atomic<bool> g_stop_requested{false};
+volatile std::sig_atomic_t g_stop_requested = 0;
 
 /**
  * Signal handler requesting graceful shutdown.
@@ -35,7 +37,7 @@ std::atomic<bool> g_stop_requested{false};
  */
 void OnSignal(int signum) {
     (void)signum;
-    g_stop_requested.store(true);
+    g_stop_requested = 1;
 }
 
 }  // namespace
@@ -61,13 +63,19 @@ int main(int argc, char** argv) {
     // bind_address = "0.0.0.0:50051"
     // default_tick_rate_hz = 30
     // json_logs = true
-    const openrcc::common::ServiceConfig config = openrcc::common::ParseServiceConfig("/etc/openrcc/service.toml");
+    openrcc::common::ServiceConfig config;
+    try {
+        config = openrcc::common::ParseServiceConfig("/etc/openrcc/service.toml");
+    } catch (const std::exception& ex) {
+        std::cerr << "OpenRCC configuration error: " << ex.what() << '\n';
+        return 2;
+    }
     openrcc::common::InitLogging(config.json_logs);
 
     std::signal(SIGINT, OnSignal);
     std::signal(SIGTERM, OnSignal);
 
-    openrcc::service::RccControlServiceImpl service;
+    openrcc::service::RccControlServiceImpl service(config.default_tick_rate_hz);
 
     grpc::ServerBuilder builder;
     builder.AddListeningPort(config.bind_address, grpc::InsecureServerCredentials());
@@ -83,7 +91,7 @@ int main(int argc, char** argv) {
     (void)sd_notify(0, "READY=1");
     spdlog::info("OpenRCC service listening on {}", config.bind_address);
 
-    while (!g_stop_requested.load()) {
+    while (g_stop_requested == 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 

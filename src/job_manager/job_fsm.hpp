@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -28,6 +29,16 @@ enum class JobState {
  * @return Stable uppercase state name.
  */
 std::string ToString(JobState state);
+
+/**
+ * Point-in-time runtime data for one tracked job.
+ */
+struct JobSnapshot {
+    JobState state;
+    std::uint64_t uptime_ms;
+    std::uint64_t memory_bytes;
+    std::uint32_t tick_rate_hz;
+};
 
 /**
  * Single-job finite state machine with guarded transitions.
@@ -81,6 +92,11 @@ public:
     JobManager();
 
     /**
+     * Stop and join all job worker threads before owned job storage is destroyed.
+     */
+    ~JobManager();
+
+    /**
      * Open a new job and start its worker thread.
      *
      * @param tick_rate_hz Tick rate assigned to the job.
@@ -113,6 +129,14 @@ public:
      * @return Current state.
      */
     JobState GetJobState(const std::string& job_id) const;
+
+    /**
+     * Query a job snapshot.
+     *
+     * @param job_id Target job identifier.
+     * @return Current state and runtime counters.
+     */
+    JobSnapshot GetJobSnapshot(const std::string& job_id) const;
 
     /**
      * Get aggregate statistics.

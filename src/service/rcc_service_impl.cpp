@@ -1,18 +1,31 @@
 #include "service/rcc_service_impl.hpp"
 
 #include <chrono>
+#include <cstdint>
+#include <exception>
+#include <string>
 
 #include <spdlog/spdlog.h>
 
 namespace openrcc::service {
 
-RccControlServiceImpl::RccControlServiceImpl() : job_manager_(), started_at_(std::chrono::steady_clock::now()) {}
+namespace {
+
+constexpr std::uint32_t kFallbackTickRateHz = 30;
+
+}  // namespace
+
+RccControlServiceImpl::RccControlServiceImpl(std::uint32_t default_tick_rate_hz)
+    : job_manager_(),
+      started_at_(std::chrono::steady_clock::now()),
+      default_tick_rate_hz_(default_tick_rate_hz == 0 ? kFallbackTickRateHz : default_tick_rate_hz) {}
 
 grpc::Status RccControlServiceImpl::OpenJob(grpc::ServerContext* context,
                                              const openrcc::v1::OpenJobRequest* request,
                                              openrcc::v1::OpenJobResponse* response) {
     (void)context;
-    const std::string job_id = job_manager_.OpenJob(request->tick_rate_hz());
+    const std::uint32_t tick_rate_hz = request->tick_rate_hz() == 0 ? default_tick_rate_hz_ : request->tick_rate_hz();
+    const std::string job_id = job_manager_.OpenJob(tick_rate_hz);
 
     response->set_request_id(request->request_id());
     response->set_job_id(job_id);
@@ -39,7 +52,16 @@ grpc::Status RccControlServiceImpl::CloseJob(grpc::ServerContext* context,
     const bool closed = job_manager_.CloseJob(request->job_id(), request->force());
     response->set_request_id(request->request_id());
     response->set_closed(closed);
-    response->set_final_state(closed ? "DRAINING_OR_CLOSED" : "UNKNOWN_JOB");
+    if (!closed) {
+        response->set_final_state("UNKNOWN_JOB");
+        return grpc::Status::OK;
+    }
+
+    try {
+        response->set_final_state(openrcc::job_manager::ToString(job_manager_.GetJobState(request->job_id())));
+    } catch (const std::exception&) {
+        response->set_final_state("UNKNOWN_JOB");
+    }
     return grpc::Status::OK;
 }
 
@@ -48,12 +70,12 @@ grpc::Status RccControlServiceImpl::GetJobStatus(grpc::ServerContext* context,
                                                   openrcc::v1::JobStatusResponse* response) {
     (void)context;
     try {
-        const openrcc::job_manager::JobState state = job_manager_.GetJobState(request->job_id());
+        const openrcc::job_manager::JobSnapshot snapshot = job_manager_.GetJobSnapshot(request->job_id());
         response->set_request_id(request->request_id());
         response->set_job_id(request->job_id());
-        response->set_state(openrcc::job_manager::ToString(state));
-        response->set_uptime_ms(0);
-        response->set_memory_bytes(0);
+        response->set_state(openrcc::job_manager::ToString(snapshot.state));
+        response->set_uptime_ms(snapshot.uptime_ms);
+        response->set_memory_bytes(snapshot.memory_bytes);
         return grpc::Status::OK;
     } catch (const std::exception& ex) {
         return grpc::Status(grpc::StatusCode::NOT_FOUND, ex.what());

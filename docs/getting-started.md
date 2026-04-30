@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Linux environment
+- Linux environment or macOS Apple Silicon
 - CMake 3.25+
 - C++20 toolchain
 - Ninja
@@ -12,6 +12,8 @@ For dependency installation on supported distros:
 ```bash
 ./scripts/install-deps.sh
 ```
+
+For native Apple Silicon details, see [Building on macOS Apple Silicon](./macos-build.md).
 
 ## Build
 
